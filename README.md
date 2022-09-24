@@ -19,7 +19,6 @@ module "certificate" {
   name               = "default"
   organization       = "default"
 }
-
 ```
 
 ### variables.tf
