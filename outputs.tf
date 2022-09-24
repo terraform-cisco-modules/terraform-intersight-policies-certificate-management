@@ -5,5 +5,5 @@
 
 output "moid" {
   description = "Certificate Management Policy Managed Object ID (moid)."
-  value       = intersight_certificatemanagement_policy.certificate.moid
+  value       = intersight_certificatemanagement_policy.certificate_management.moid
 }

@@ -8,25 +8,39 @@ data "intersight_organization_organization" "org_moid" {
   name = var.organization
 }
 
+#____________________________________________________________
+#
+# Intersight UCS Server Profile(s) Data Source
+# GUI Location: Profiles > UCS Server Profiles > {Name}
+#____________________________________________________________
+
+data "intersight_server_profile" "profiles" {
+  for_each = { for v in local.profiles : v.name => v if v.object_type == "server.Profile" }
+  name     = each.value.name
+}
+
+#__________________________________________________________________
+#
+# Intersight UCS Server Profile Template(s) Data Source
+# GUI Location: Templates > UCS Server Profile Templates > {Name}
+#__________________________________________________________________
+
+data "intersight_server_profile_template" "templates" {
+  for_each = { for v in local.profiles : v.name => v if v.object_type == "server.ProfileTemplate" }
+  name     = each.value.name
+}
+
 #__________________________________________________________________
 #
 # Intersight Certificate Management Policy
 # GUI Location: Policies > Create Policy > Certificate Management
 #__________________________________________________________________
 
-locals {
-  profiles = {
-    for v in var.profiles : v.name => {
-      name        = v.name
-      object_type = v.object_type != null ? v.object_type : "server.Profile"
-    }
-  }
-}
-
 resource "intersight_certificatemanagement_policy" "certificate_management" {
   depends_on = [
     data.intersight_server_profile.profiles,
-    data.intersight_server_profile_template.templates
+    data.intersight_server_profile_template.templates,
+    data.intersight_organization_organization.org_moid
   ]
   description = var.description != "" ? var.description : "${var.name} Certificate Management Policy."
   name        = var.name
@@ -36,10 +50,30 @@ resource "intersight_certificatemanagement_policy" "certificate_management" {
   }
   certificates {
     certificate {
-      pem_certificate = var.base64_certificate
+      pem_certificate = length(
+        regexall("1", var.base64_certificate)
+        ) > 0 ? var.base64_certificate_1 : length(
+        regexall("2", var.base64_certificate)
+        ) > 0 ? var.base64_certificate_2 : length(
+        regexall("3", var.base64_certificate)
+        ) > 0 ? var.base64_certificate_3 : length(
+        regexall("4", var.base64_certificate)
+        ) > 0 ? var.base64_certificate_4 : length(
+        regexall("5", var.base64_certificate)
+      ) > 0 ? var.base64_certificate_5 : null
     }
-    enabled    = var.enabled
-    privatekey = var.base64_private_key
+    enabled = var.enabled
+    privatekey = length(
+      regexall("1", var.base64_private_key)
+      ) > 0 ? var.base64_private_key_1 : length(
+      regexall("2", var.base64_private_key)
+      ) > 0 ? var.base64_private_key_2 : length(
+      regexall("3", var.base64_private_key)
+      ) > 0 ? var.base64_private_key_3 : length(
+      regexall("4", var.base64_private_key)
+      ) > 0 ? var.base64_private_key_4 : length(
+      regexall("5", var.base64_private_key)
+    ) > 0 ? var.base64_private_key_5 : null
   }
   dynamic "profiles" {
     for_each = local.profiles

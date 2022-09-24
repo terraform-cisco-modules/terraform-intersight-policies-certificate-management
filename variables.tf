@@ -1,19 +1,87 @@
-terraform {
-  experiments = [module_variable_optional_attrs]
-}
-
 #____________________________________________________________
 #
 # Certificate Management Policy Variables Section.
 #____________________________________________________________
 
 variable "base64_certificate" {
+  default     = ""
+  description = "The Number of the base64_certificate Variable.  i.e. 1 = base64_certificate_1."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_certificate_1" {
+  default     = ""
+  description = "The Server Certificate in Base64 format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_certificate_2" {
+  default     = ""
+  description = "The Server Certificate in Base64 format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_certificate_3" {
+  default     = ""
+  description = "The Server Certificate in Base64 format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_certificate_4" {
+  default     = ""
+  description = "The Server Certificate in Base64 format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_certificate_5" {
+  default     = ""
   description = "The Server Certificate in Base64 format."
   sensitive   = true
   type        = string
 }
 
 variable "base64_private_key" {
+  default     = ""
+  description = "The Number of the base64_private_key Variable.  i.e. 1 = base64_private_key_1."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_private_key_1" {
+  default     = ""
+  description = "Private Key in Base64 Format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_private_key_2" {
+  default     = ""
+  description = "Private Key in Base64 Format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_private_key_3" {
+  default     = ""
+  description = "Private Key in Base64 Format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_private_key_4" {
+  default     = ""
+  description = "Private Key in Base64 Format."
+  sensitive   = true
+  type        = string
+}
+
+variable "base64_private_key_5" {
+  default     = ""
   description = "Private Key in Base64 Format."
   sensitive   = true
   type        = string
@@ -55,7 +123,7 @@ variable "profiles" {
   type = list(object(
     {
       moid        = string
-      object_type = optional(string)
+      object_type = optional(string, "server.Profile")
     }
   ))
 }
