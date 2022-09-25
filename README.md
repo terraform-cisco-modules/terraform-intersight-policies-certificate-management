@@ -9,32 +9,33 @@ Location in GUI:
 
 ### main.tf
 ```hcl
-module "certificate" {
+module "certificate_management" {
   source  = "scotttyso/policies-certificate-management/intersight"
   version = ">= 1.0.1"
 
-  base64_certificate = var.base64_certificate
-  base64_private_key = var.base64_private_key
+  base64_certificate = 1
+  base64_private_key = 1
   description        = "Demo Certificate Management Policy"
   name               = "default"
   organization       = "default"
 }
 ```
 
+### provider.tf
+```hcl
+terraform {
+  required_providers {
+    intersight = {
+      source  = "CiscoDevNet/intersight"
+      version = ">=1.0.32"
+    }
+  }
+  required_version = ">=1.3.0"
+}
+```
+
 ### variables.tf
 ```hcl
-variable "base64_certificate" {
-  description = "The Server Certificate in Base64 format."
-  sensitive   = true
-  type        = string
-}
-
-variable "base64_private_key" {
-  description = "Private Key in Base64 Format."
-  sensitive   = true
-  type        = string
-}
-
 variable "apikey" {
   description = "Intersight API Key."
   sensitive   = true
@@ -51,24 +52,6 @@ variable "secretkey" {
   description = "Intersight Secret Key."
   sensitive   = true
   type        = string
-}
-```
-
-### versions.tf
-```hcl
-terraform {
-  required_providers {
-    intersight = {
-      source  = "CiscoDevNet/intersight"
-      version = ">=1.0.32"
-    }
-  }
-}
-
-provider "intersight" {
-  apikey    = var.apikey
-  endpoint  = var.endpoint
-  secretkey = var.secretkey
 }
 ```
 

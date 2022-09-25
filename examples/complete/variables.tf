@@ -1,15 +1,3 @@
-variable "base64_certificate" {
-  description = "The Server Certificate in Base64 format."
-  sensitive   = true
-  type        = string
-}
-
-variable "base64_private_key" {
-  description = "Private Key in Base64 Format."
-  sensitive   = true
-  type        = string
-}
-
 variable "apikey" {
   description = "Intersight API Key."
   sensitive   = true
